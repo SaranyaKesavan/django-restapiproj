@@ -51,7 +51,7 @@ class Update(models.Model):
         data = {
             'id' : self.id,
             'content' : self.content,
-            'user' : self.user.username,
+            'user' : self.user.id,
             'image' : img
         }
         json_data = json.dumps(data)

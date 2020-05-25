@@ -19,15 +19,15 @@ def get_list():
     return data
 
 
-print(get_list()) 
+#print(get_list()) 
 
 
 def create_update():
     new_data = {
         'user' : 3,
-        'content' : "Testing api with python requests"
+        'content' : "Trying to find the serialize error!!"
     }
-    r = requests.post(BASE_URL + ENDPOINT, data=new_data)
+    r = requests.post(BASE_URL + ENDPOINT + "1", data=new_data)
     print(r.headers)
     print(r.status_code)
     if r.status_code == requests.codes.ok:
@@ -50,4 +50,4 @@ def delete_update():
         return r.json()
     return r.text
 
-print(delete_update())
+#print(delete_update())
