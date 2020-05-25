@@ -10,6 +10,8 @@ ENDPOINT = "api/updates/"
 def get_list():
     r = requests.get(BASE_URL + ENDPOINT)
     data = r.json()
+    print(r.headers)
+    print(r.status_code)
     for obj in data:
         if obj['id'] == 1:
             r = requests.get(BASE_URL + ENDPOINT + str(obj['id']))
@@ -17,8 +19,8 @@ def get_list():
     return data
 
 
-#print(get_list()) 
-a = get_list()
+print(get_list()) 
+
 
 def create_update():
     new_data = {
@@ -27,12 +29,13 @@ def create_update():
     }
     r = requests.post(BASE_URL + ENDPOINT, data=new_data)
     print(r.headers)
+    print(r.status_code)
     if r.status_code == requests.codes.ok:
         #print(r.json())
         return r.json()
     return r.text
 
-#print(create_update())
+print(create_update())
 
 def delete_update():
     new_data = {

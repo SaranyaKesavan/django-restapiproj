@@ -4,41 +4,49 @@ from django.http import HttpResponse
 
 from updates.models import Update as UpdateModel
 from .mixins import CSRFExemptMixin
+from restapiproj.mixins import HttpResponseMixin
 
  # Creating, Updating, Deleting, Retrieving
 
-class UpdateModelDetailAPIView(CSRFExemptMixin,View):
+class UpdateModelDetailAPIView(HttpResponseMixin, CSRFExemptMixin,View):
     '''
     Retrieve, Update, Delete ==>> Object
     '''
+    is_json = True
+
     def get(self, request, id, *args, **kwargs):
         obj = UpdateModel.objects.get(id=id)
         json_data = obj.serialize()
-        return HttpResponse(json_data, content_type='application/json')
+        return self.render_to_response(json_data)
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse({}, content_type='application/json')
+        data = {}
+        return self.render_to_response(data, status=400)
 
     def put(self, request, *args, **kwargs):
-        return HttpResponse({}, content_type='application/json')
+        data = {}
+        return self.render_to_response(data, status=400)
 
     def delete(self, request, *args, **kwargs):
-        return HttpResponse({}, content_type='application/json')       
+        data = {}
+        return self.render_to_response(data, status=403)
 
-class UpdateModelListAPIView(CSRFExemptMixin,View):
+class UpdateModelListAPIView(HttpResponseMixin, CSRFExemptMixin,View):
     '''
     List View
     Create View
     '''
+    is_json = True
+
     def get(self, request, *args, **kwargs):
         qs = UpdateModel.objects.all()
         json_data = qs.serialize()
-        return HttpResponse(json_data, content_type='application/json')
+        return self.render_to_response(json_data)
 
     def post(self, request, *args, **kwargs):
         data = json.dumps({"message":"Unknown Data"})
-        return HttpResponse(data, content_type='application/json')
+        return self.render_to_response(data, status=400) # 400 ==> Bad Request
 
     def delete(self, request, *args, **kwargs):
         data = json.dumps({"message":"You don't have permission to delete the data!"})
-        return HttpResponse(data, content_type='application/json')       
+        return self.render_to_response(data, status=403) # 403 ==> Forbidden
